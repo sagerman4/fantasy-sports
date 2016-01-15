@@ -1,32 +1,21 @@
 {
   "name": "fantasysports-hapi",
-  "description": "A wrapper for the Yahoo Fantasy API for Hapi.js.",
   "version": "0.1.0",
-  "homepage": "https://github.com/sagerman4/fantasy-sports",
-  "author": {
-    "name": "J. Sager Davidson",
-    "email": "sager.davidson@gmail.com"
+  "description": "This is a hapi.js wrapper for the Yahoo! Fantasy API.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/sagerman4/fantasy-sports.git"
   },
+  "author": "J. Sager Davidson <sager.davidson@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sagerman4/fantasy-sports/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/sagerman4/fantasy-sports/blob/master/LICENSE-MIT"
-    }
-  ],
-  "main": "lib/index",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "scripts": {
-    "test": "grunt"
-  },
+  "homepage": "https://github.com/sagerman4/fantasy-sports#readme",
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-nodeunit": "~0.2.0",
