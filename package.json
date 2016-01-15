@@ -1,6 +1,6 @@
 {
   "name": "fantasysports-hapi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This is a hapi.js wrapper for the Yahoo! Fantasy API.",
   "main": "lib/index.js",
   "scripts": {
