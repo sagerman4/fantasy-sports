@@ -20,8 +20,10 @@ describe("FantasySports", function() {
     describe("Authentication", function() {
         it("should begin the oauth process", function() {
             var request = {
-                    auth: {
-                        credentials: {}
+                    session: {
+                        auth: {
+                            credentials: {}
+                        }
                     }
                 },
                 response = {
@@ -38,19 +40,20 @@ describe("FantasySports", function() {
             FantasySports.startAuth(request, response);
 
             expect(response.redirect.calledOnce).to.be.ok();
-            expect(request.auth.credentials.token).to.be("abc123");
-            expect(request.auth.credentials.secret).to.be("abc123secret");
+            expect(request.session.auth.credentials.token).to.be("abc123");
+            expect(request.session.auth.credentials.secret).to.be("abc123secret");
 
             FantasySports.auth.getOAuth.restore();
         });
 
         it("should end the oauth process", function() {
             var request = {
-                    auth: {
-                        credentials: {
-
+                    session: {
+                        auth: {
+                            credentials: {}
                         }
                     },
+                    url: "http://example.com",
                     param: sinon.spy()
                 },
                 response = {
@@ -70,9 +73,9 @@ describe("FantasySports", function() {
             FantasySports.endAuth(request, response);
 
             expect(response.redirect.calledOnce).to.be.ok();
-            expect(request.auth.credentials.token).to.be("access123");
-            expect(request.auth.credentials.secret).to.be("access123secret");
-            expect(request.auth.credentials.timestamp).to.be.ok();
+            expect(request.session.auth.credentials.token).to.be("access123");
+            expect(request.session.auth.credentials.secret).to.be("access123secret");
+            expect(request.session.auth.credentials.timestamp).to.be.ok();
             // expect(request.session.oauthSessionHandle).to.be("session1");
             // expect(request.session.xoauthYahooGuid).to.be("guid123");
 
@@ -81,17 +84,17 @@ describe("FantasySports", function() {
 
         it("should tell whether a user is authenticated", function() {
             var req = {
-                    auth: {
-                        credentials: {
-                            
+                    session: {
+                        auth: {
+                            credentials: {}
                         }
-                    },
+                    }
                 },
                 res = {};
 
             expect(!FantasySports.request(req, res).isAuthenticated()).to.be.ok();
 
-            req.auth.credentials.token = "abc123";
+            req.session.auth.credentials.token = "abc123";
 
             expect(FantasySports.request(req, res).isAuthenticated()).to.be.ok();
         });
@@ -100,10 +103,12 @@ describe("FantasySports", function() {
     describe("Request", function() {
         it("should make requests with a valid access token", function() {
             var request = {
-                    auth: {
-                        credentials: {
-                            token: "abc123"
-                        } 
+                    session: {
+                        auth: {
+                            credentials: {
+                                token: "abc123"
+                            }
+                        }
                     }
                 },
                 response = {};
@@ -120,7 +125,7 @@ describe("FantasySports", function() {
             FantasySports
                 .request(request, response)
                 .api("users;use_login=1/games;game_keys=nfl/leagues?format=json")
-                .done(function(data) {  
+                .done(function(data) {
                     expect(data.players.length).to.be(3);
                 });
 
@@ -131,14 +136,16 @@ describe("FantasySports", function() {
             var now = new Date(),
                 request = {},
                 response = {};
-                
+
             now.setMinutes(now.getMinutes() - 65);
-            
+
             request = {
-                auth: {
-                    credentials: { 
-                        token: "abc123",
-                        timestamp: now
+                session: {
+                    auth: {
+                        credentials: {
+                            token: "abc123",
+                            timestamp: now
+                        }
                     }
                 }
             };
@@ -149,7 +156,7 @@ describe("FantasySports", function() {
                         callback(null, {
                             players: ["1", "2", "3"]
                         });
-                    }, 
+                    },
                     refreshOAuthAccessToken: function(token, secret, verifier, callback) {
                         callback(null, "access123", "access123secret", {
                             oauth_session_handle: "session1",
@@ -161,7 +168,7 @@ describe("FantasySports", function() {
             FantasySports
                 .request(request, response)
                 .api("users;use_login=1/games;game_keys=nfl/leagues?format=json")
-                .done(function(data) {  
+                .done(function(data) {
                     expect(data.players.length).to.be(3);
 
                     FantasySports.auth.getOAuth.restore();
@@ -170,9 +177,11 @@ describe("FantasySports", function() {
 
         it("should refresh authentication when a token is not present on the session", function() {
             var request = {
-                    auth: {
-                        credentials: { 
-                            token: "abc123"
+                    session: {
+                        auth: {
+                            credentials: {
+                                token: "abc123"
+                            }
                         }
                     }
                 },
@@ -190,7 +199,7 @@ describe("FantasySports", function() {
             FantasySports
                 .request(request, response)
                 .api("users;use_login=1/games;game_keys=nfl/leagues?format=json")
-                .done(function(data) {  
+                .done(function(data) {
                     expect(data.players.length).to.be(3);
                 });
 
@@ -199,9 +208,11 @@ describe("FantasySports", function() {
 
         it("should accept posts", function () {
             var request = {
-                    auth: {
-                        credentials: { 
-                            token: "abc123"
+                    session: {
+                        auth: {
+                            credentials: {
+                                token: "abc123"
+                            }
                         }
                     }
                 },
@@ -232,7 +243,7 @@ describe("FantasySports", function() {
                         }
                     }
                 })
-                .done(function(data) {  
+                .done(function(data) {
                     expect(data.success).to.be.ok();
                 });
 
@@ -241,9 +252,11 @@ describe("FantasySports", function() {
 
         it("should accept puts", function () {
             var request = {
-                    auth: { 
-                        credentials: {
-                            token: "abc123"
+                    session: {
+                        auth: {
+                            credentials: {
+                                token: "abc123"
+                            }
                         }
                     }
                 },
@@ -276,7 +289,7 @@ describe("FantasySports", function() {
                     }
                 }
                 })
-                .done(function(data) {  
+                .done(function(data) {
                     expect(data.success).to.be.ok();
                 });
 

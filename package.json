@@ -11,11 +11,12 @@
     "url": "git://github.com/sagerman4/fantasy-sports.git"
   },
   "author": "J. Sager Davidson <sager.davidson@gmail.com>",
+  "contributors": "Craig Sturgis <craig@csturg.is> (http://craigsturgis.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sagerman4/fantasy-sports/issues"
+    "url": "https://github.com/craigsturgis/fantasy-sports/issues"
   },
-  "homepage": "https://github.com/sagerman4/fantasy-sports#readme",
+  "homepage": "https://github.com/craigsturgis/fantasy-sports#readme",
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-nodeunit": "~0.2.0",
@@ -27,8 +28,8 @@
   },
   "keywords": [],
   "dependencies": {
-    "oauth": "jcreamer898/node-oauth",
-    "underscore": "^1.6.0",
-    "q": "^1.0.1"
+    "oauth": "^0.9.15",
+    "q": "^1.0.1",
+    "underscore": "^1.6.0"
   }
 }
